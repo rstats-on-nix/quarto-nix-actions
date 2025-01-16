@@ -1,6 +1,9 @@
 
 # Publishing with Quarto using GitHub Actions
 
+Important: unlike upstream’s `quarto-actions/publish`, the `to` argument is not available and the `target` argument
+must be used.
+
 This README complements the more detailed documentation on [Quarto's website](https://quarto.org/docs/publishing/).
 
 ## Netlify 
