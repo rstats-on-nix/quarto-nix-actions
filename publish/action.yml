@@ -2,12 +2,9 @@ name: 'Publish Quarto project'
 author: 'Carlos Scheidegger'
 description: 'This action will publish an existing quarto project'
 inputs:
-  to:
-    description: 'Service to publish to. If unspecified, use the default value derived from _publish.yml'
-    required: false
   target:
     description: 'Alias for `to`. If unspecified, use the default value derived from _publish.yml'
-    required: false
+    required: true
   CONNECT_SERVER:
     description: 'RStudio Connect server. If unspecified, use the default value derived from _publish.yml'
     required: false
@@ -50,12 +47,8 @@ runs:
       run: |
         git config --global user.email "${{ inputs.GITHUB_EMAIL }}"
         git config --global user.name "${{ inputs.GITHUB_USERNAME }}"
-        TARGET="${{ inputs.to }}"
-        if [ "$TARGET" == "" ]; then
-          TARGET="${{ inputs.target }}"
-        fi
         if [ "${{ inputs.render }}" != "true" ]; then
-          nix-shell --run 'quarto publish gh-pages ${{ inputs.path }} --no-render --no-browser'
+          nix-shell --run 'quarto publish ${{ inputs.target }} ${{ inputs.path }} --no-render --no-browser'
         else
-          nix-shell --run 'quarto publish gh-pages ${{ inputs.path }} --no-browser'
+          nix-shell --run 'quarto publish ${{ inputs.target }} ${{ inputs.path }} --no-browser'
         fi
